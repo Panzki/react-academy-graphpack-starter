@@ -1,14 +1,17 @@
 import data from '../data'
 
-function getArticles(searchText) {
+function filterArticles(articles, search) {
 
   const rules = []
 
-  if (searchText) {
-    rules.push((article) => article.title.toLocaleLowerCase().includes(searchText.toLocaleLowerCase()))
+  if (search.text) {
+    rules.push(article => article.body.toLowerCase().includes(search.text.toLocaleLowerCase()))
+  }
+  if(search.isPublished !== undefined){
+    rules.push(article => article.isPublished === search.isPublished)
   }
 
-  return data.articles.filter(article => rules.every(rule => rule(article)))
+  return articles.filter(article => rules.every(rule => rule(article)))
 }
 
 function getUsers(limit) {
@@ -30,14 +33,16 @@ function findUserById(id) {
 const resolvers = {
   Query: {
     hello: () => `Hello World!`,
-    articles: (_, { searchText }) => getArticles(searchText),
+    articles: (_, { search }) => filterArticles(data.articles, search),
     users: (_, { limit }) => getUsers(limit),
     article: (_, { id }) => findArticleById(id),
     user: (_, { id }) => findUserById(id)
   },
   User: {
-    articles: (user) => {
-      return data.articles.filter(article => article.authorId === user.id)
+    articles: (user, {search}) => {
+      const articlesOfUser = data.articles.filter(article => article.authorId === user.id)
+      
+      return filterArticles(articlesOfUser, search)
     },
   },
   Article: {

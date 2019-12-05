@@ -1,6 +1,11 @@
+input SearchInput{
+  text: String
+  isPublished: Boolean
+}
+
 type Query {
   hello: String
-  articles(searchText: String): [Article]
+  articles(search: SearchInput): [Article!]
   users(limit: Int): [User]
   article(id: ID): Article
   user(id: ID): User
@@ -19,5 +24,5 @@ type User{
   email: String
   isEmployed: Boolean
   age: Int
-  articles: [Article]
+  articles(search: SearchInput): [Article!]
 }
