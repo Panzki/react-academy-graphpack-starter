@@ -34,6 +34,16 @@ const resolvers = {
     users: (_, { limit }) => getUsers(limit),
     article: (_, { id }) => findArticleById(id),
     user: (_, { id }) => findUserById(id)
+  },
+  User: {
+    articles: (user) => {
+      return data.articles.filter(article => article.authorId === user.id)
+    },
+  },
+  Article: {
+    author: (article) => {
+      return data.users.find(user => user.id === article.authorId)
+    }
   }
 };
 

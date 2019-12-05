@@ -10,6 +10,7 @@ type Article {
   id: ID!
   title: String
   body: String
+  author: User
 }
 
 type User{
@@ -18,4 +19,5 @@ type User{
   email: String
   isEmployed: Boolean
   age: Int
+  articles: [Article]
 }
