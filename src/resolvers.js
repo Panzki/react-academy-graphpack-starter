@@ -22,11 +22,11 @@ function getUsers(limit) {
 }
 
 function findArticleById(id) {
-  return data.articles.filter(article => article.id === id)[0]
+  return data.articles.find(article => article.id === id)
 }
 
 function findUserById(id) {
-  return data.users.filter(user => user.id === id)[0]
+  return data.users.find(user => user.id === id)
 
 }
 
