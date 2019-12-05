@@ -1,10 +1,14 @@
 import data from '../data'
 
 function getArticles(searchText) {
+
+  const rules = []
+
   if (searchText) {
-    return data.articles.filter(article => article.title.toLocaleLowerCase().includes(searchText.toLocaleLowerCase()));
+    rules.push((article) => article.title.toLocaleLowerCase().includes(searchText.toLocaleLowerCase()))
   }
-  return data.articles;
+
+  return data.articles.filter(article => rules.every(rule => rule(article)))
 }
 
 function getUsers(limit) {
